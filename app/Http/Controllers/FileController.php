@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class FileController extends Controller
 {
     public function index($directory = '')
     {
         if (!Storage::exists($directory)) {
-            return redirect('/');
+            if (!Storage::disk('local')->exists('cloud')) {
+                Storage::disk('local')->makeDirectory('cloud');
+            }
+
+            return redirect('/files');
         }
 
         return view('index', [
