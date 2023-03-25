@@ -27,23 +27,15 @@
     <div class="filesystem">
 
         <div class="row header">
-            <span class="title">
-                Fileexplorer
-            </span>
+            <a href="/files" class="title">
+                Cloud
+            </a>
 
             <span class="new">
                 <button class="material-symbols-outlined new-file" id="new_file_button">note_add</button>
                 <button class="material-symbols-outlined new-folder" id="new_folder_button">create_new_folder</button>
             </span>
         </div>
-
-        @if ($errors->any())
-            @foreach ($errors->all() as $error)
-                <div class="row">
-                    {{ $error }}
-                </div>
-            @endforeach
-        @endif
 
         <div class="row new-file hidden" id="new_file_menu">
             <form action="/new/file" enctype=multipart/form-data method="post">
@@ -65,6 +57,14 @@
             </form>
         </div>
 
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                <div class="row">
+                    {{ $error }}
+                </div>
+            @endforeach
+        @endif
+
         @if ($path != '')
 
             <a href="
@@ -75,6 +75,12 @@
                 </span>
             </a>
 
+        @endif
+
+        @if (count($directories) == 0 && count($files) == 0)
+            <div class="row">
+                Nothing here ¯\_(ツ)_/¯
+            </div>
         @endif
 
         @foreach ($directories as $directory)
